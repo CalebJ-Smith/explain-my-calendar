@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header/Header"
+import { ping } from "./api/goService";
+
+const Small = ({ pingResponse }) => {
+  return (
+    <h2>ping returns: {pingResponse}</h2>
+  )
+}
 
 function App() {
+  const [pingResult, setPingResult] = useState('')
+  useEffect(() => {
+    ping().then(r => {
+      console.log(r);
+      setPingResult(r);
+    })
+  }, [])
+  //<div><p>{pingResult}</p></div>
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Small pingResponse={pingResult} />
     </div>
   );
 }
