@@ -2,10 +2,15 @@ package main
 
 import (
 	//"fmt"
+	"context"
+	"fmt"
 	"log"
 	"net/http"
 
 	"io/ioutil"
+	"os"
+
+	"google.golang.org/api/calendar/v3"
 
 	"github.com/gin-gonic/gin"
 	cors "github.com/rs/cors/wrapper/gin"
@@ -13,7 +18,30 @@ import (
 
 //https://github.com/gin-gonic/gin
 
+func get_cal_id() string {
+	s := os.Getenv("CAL_ID")
+	fmt.Printf("s: %v\n", s)
+	return s
+}
+
+func calendar_things() {
+	ctx := context.Background()
+	calendarService, err := calendar.NewService(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	cal, c_err := calendarService.Calendars.Get(get_cal_id()).Do()
+	if c_err != nil {
+		log.Fatalln(c_err)
+	}
+	fmt.Printf("cal.Summary: %v\n", cal.Summary)
+}
+
+//To look into next: https://developers.google.com/identity/gsi/web/guides/display-button#javascript
+// get users authenticated cause that's my problem for local development now.
+
 func main() {
+	calendar_things()
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.GET("/ping", func(c *gin.Context) {
