@@ -1,5 +1,6 @@
 package main
 
+//https://developers.google.com/calendar/api/quickstart/go?hl=en_US
 import (
 	//"fmt"
 	"context"
@@ -40,7 +41,7 @@ func calendar_things() {
 //To look into next: https://developers.google.com/identity/gsi/web/guides/display-button#javascript
 // get users authenticated cause that's my problem for local development now.
 
-func main() {
+func old_main() {
 	calendar_things()
 	router := gin.Default()
 	router.Use(cors.Default())
